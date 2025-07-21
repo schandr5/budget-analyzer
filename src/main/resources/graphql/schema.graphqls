@@ -1,0 +1,20 @@
+# Input type object for addUser mutation
+input UserInput {
+    name: String!
+    userName: String!
+    password: String!
+}
+
+# Return type of addUser mutation
+type UserDetails {
+    id : ID!
+    name: String!
+}
+
+type Query {
+  _dummy: String
+}
+
+type Mutation {
+    addUser(newUser: UserInput!): UserDetails
+}
