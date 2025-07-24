@@ -2,21 +2,16 @@ package com.example.demo.service;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class RegisterUser {
+@AllArgsConstructor
+public class UserRegistrationService {
 
     UserRepository userRepository;
-
-    public RegisterUser(UserRepository userRepository)
-    {
-        this.userRepository = userRepository;
-    }
 
     public User addUser(User newUser)
     {

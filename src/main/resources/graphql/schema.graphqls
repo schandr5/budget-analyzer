@@ -1,4 +1,4 @@
-# Input type object for addUser mutation
+# Input type for addUser mutation
 input UserInput {
     name: String!
     userName: String!
@@ -11,10 +11,16 @@ type UserDetails {
     name: String!
 }
 
-type Query {
-  _dummy: String
+#Input type for userLogin query
+input Credentials {
+    userName: String!
+    password: String!
 }
 
 type Mutation {
     addUser(newUser: UserInput!): UserDetails
+}
+
+type Query {
+    authenticateUser(credentials: Credentials!): UserDetails
 }
