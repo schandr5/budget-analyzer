@@ -1,3 +1,6 @@
+scalar Date
+scalar Long
+
 # Input type for addUser mutation
 input UserInput {
     name: String!
@@ -17,10 +20,31 @@ input Credentials {
     password: String!
 }
 
+# Input type for initializing budget details
+input BudgetSetupInput {
+    id: ID!
+    start_date: Date!
+    end_date: Date!
+    budget_allocated: Long!
+    budget_remaining: Long!
+}
+
+# Return type for budget details after initializing it.
+type BudgetDetails {
+    budget_id: ID!
+    id: ID!
+    start_date: Date!
+    end_date: Date!
+    budget_allocated: Long!
+    budget_remaining: Long!
+}
+
 type Mutation {
     addUser(newUser: UserInput!): UserDetails
+    setupBudgetForNewUser(budgetSetupInput: BudgetSetupInput!): BudgetDetails
 }
 
 type Query {
     authenticateUser(credentials: Credentials!): UserDetails
 }
+
