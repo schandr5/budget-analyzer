@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,9 +21,9 @@ public class Budget {
     @JoinColumn(name = "id", nullable = false)
     private Long id;
 
-    private Date start_date;
+    private LocalDate start_date;
 
-    private Date end_date;
+    private LocalDate end_date;
 
     private Long budget_allocated;
 

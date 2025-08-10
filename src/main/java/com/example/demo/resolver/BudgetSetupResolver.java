@@ -2,10 +2,12 @@ package com.example.demo.resolver;
 
 import com.example.demo.dto.BudgetDetails;
 import com.example.demo.dto.BudgetSetupInput;
+import com.example.demo.dto.UserInput;
 import com.example.demo.model.Budget;
 import com.example.demo.service.BudgetSetupService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
@@ -19,9 +21,9 @@ public class BudgetSetupResolver {
     BudgetSetupService budgetSetupService;
 
     @MutationMapping
-    public BudgetDetails setupBudgetForNewUser(BudgetSetupInput budgetSetupInput)
+    public BudgetDetails setupBudgetForNewUser(@Argument("budgetSetupInput") BudgetSetupInput budgetSetupInput)
     {
-        log.info("Setting up budget for new user: {} ", budgetSetupInput.getBudget_id());
+        log.info("Setting up budget for new user: {} ", budgetSetupInput.getId());
         Budget budgetInfo = budgetSetupService.budgetSetup(budgetSetupInput);
 
         if (budgetInfo != null)
