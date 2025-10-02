@@ -41,8 +41,8 @@ public class UserResolver {
         Optional<User> user = userAuthenticationService.authenticateUser(credentials);
         if (user.isPresent())
         {
-            log.info("Required user found: {}", user.get().name);
-            return new UserDetails(user.get().id, user.get().name);
+            log.info("Required user found: {}", user.get().getUserName());
+            return new UserDetails(user.get().getId(), user.get().getUserName());
         }
         else {
             throw new RuntimeException("User not found");

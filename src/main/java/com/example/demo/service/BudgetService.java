@@ -6,8 +6,10 @@ import com.example.demo.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class BudgetSetupService {
+public class BudgetService {
 
     @Autowired
     BudgetRepository budgetRepository;
@@ -15,9 +17,14 @@ public class BudgetSetupService {
     public Budget budgetSetup(BudgetSetupInput budgetSetupInput)
     {
        Budget newBudgetInfo = new Budget(null, budgetSetupInput.getId(),
-                                    budgetSetupInput.getStart_date(), budgetSetupInput.getEnd_date(),
-                                    budgetSetupInput.getBudget_allocated(), budgetSetupInput.getBudget_remaining());
+                                    budgetSetupInput.getStartDate(), budgetSetupInput.getEndDate(),
+                                    budgetSetupInput.getBudgetAllocated(), budgetSetupInput.getBudgetRemaining(), true);
        return budgetRepository.save(newBudgetInfo);
+    }
+
+    public Optional<Budget> fetchBudgetDetails(Long id)
+    {
+        return budgetRepository.findByIdAndIsActiveTrue(id);
     }
 
 }

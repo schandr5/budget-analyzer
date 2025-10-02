@@ -1,9 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,16 +14,24 @@ public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long budget_id;
+    @Column(name = "budget_id")
+    private Long budgetId;
 
-    @JoinColumn(name = "id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    private LocalDate start_date;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    private LocalDate end_date;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
-    private Long budget_allocated;
+    @Column(name = "budget_allocated")
+    private Long budgetAllocated;
 
-    private Long budget_remaining;
+    @Column(name = "budget_remaining")
+    private Long budgetRemaining;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
 }

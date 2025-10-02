@@ -1,17 +1,23 @@
 package com.example.demo.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Credentials {
+public class TransactionInput {
+    private long id;
 
-    private String userName;
+    private long transactionAmount;
 
-    private String password;
+    private LocalDate transactionDate;
+
+    private String transactionCategory;
 }

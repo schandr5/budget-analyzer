@@ -11,7 +11,7 @@ input UserInput {
 # Return type of addUser mutation
 type UserDetails {
     id : ID!
-    name: String!
+    userName: String!
 }
 
 #Input type for userLogin query
@@ -23,20 +23,21 @@ input Credentials {
 # Input type for initializing budget details
 input BudgetSetupInput {
     id: ID!
-    start_date: Date!
-    end_date: Date!
-    budget_allocated: Long!
-    budget_remaining: Long!
+    startDate: Date!
+    endDate: Date!
+    budgetAllocated: Long!
+    budgetRemaining: Long!
 }
 
 # Return type for budget details after initializing it.
 type BudgetDetails {
-    budget_id: ID!
+    budgetId: ID!
     id: ID!
-    start_date: Date!
-    end_date: Date!
-    budget_allocated: Long!
-    budget_remaining: Long!
+    startDate: Date!
+    endDate: Date!
+    budgetAllocated: Long!
+    budgetRemaining: Long!
+    isActive: Boolean!
 }
 
 type Mutation {
@@ -46,5 +47,6 @@ type Mutation {
 
 type Query {
     authenticateUser(credentials: Credentials!): UserDetails
+    fetchBudgetDetailsForExistingUser(id: ID!): BudgetDetails
 }
 

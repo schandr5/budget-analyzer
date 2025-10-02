@@ -15,6 +15,6 @@ public class UserAuthenticationService {
     UserRepository userRepository;
 
     public Optional<User> authenticateUser(Credentials userLoginDetails) {
-        return userRepository.findByUserName(userLoginDetails.userName);
+        return userRepository.findByUserName(userLoginDetails.getUserName());
     }
 }

@@ -12,5 +12,5 @@ import lombok.Setter;
 @Getter
 public class UserDetails {
     private Long id;
-    private String name;
+    private String userName;
 }
