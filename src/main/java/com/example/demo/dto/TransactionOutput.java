@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 
+import com.example.demo.enums.TransactionPriority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TransactionInput {
+public class TransactionOutput {
+    private long transactionId;
+
     private long budgetId;
 
     private long transactionAmount;
@@ -21,5 +24,5 @@ public class TransactionInput {
 
     private String transactionCategory;
 
-    private long budgetAllocated;
+    private TransactionPriority transactionPriority;
 }

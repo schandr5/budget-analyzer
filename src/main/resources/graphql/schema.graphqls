@@ -1,6 +1,12 @@
 scalar Date
 scalar Long
 
+enum TransactionPriority {
+    HIGH
+    MEDIUM
+    LOW
+}
+
 # Input type for addUser mutation
 input UserInput {
     name: String!
@@ -40,13 +46,32 @@ type BudgetDetails {
     isActive: Boolean!
 }
 
+input TransactionInput {
+      budgetId: ID!
+      transactionAmount: Long!
+      transactionDate: Date!
+      transactionCategory: String!
+      budgetAllocated: Long!
+}
+
+type TransactionOutput {
+    transactionId: ID!
+    budgetId: ID!
+    transactionAmount: Long!
+    transactionDate: Date!
+    transactionCategory: String!
+    transactionPriority: TransactionPriority!
+}
+
 type Mutation {
     addUser(newUser: UserInput!): UserDetails
     setupBudgetForNewUser(budgetSetupInput: BudgetSetupInput!): BudgetDetails
+    addTransaction(transactionInput: TransactionInput!) : TransactionOutput
 }
 
 type Query {
     authenticateUser(credentials: Credentials!): UserDetails
     fetchBudgetDetailsForExistingUser(id: ID!): BudgetDetails
+    fetchTransactions(budgetId: ID!): [TransactionOutput]
 }
 
