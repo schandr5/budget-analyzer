@@ -27,4 +27,15 @@ public class BudgetService {
         return budgetRepository.findByIdAndIsActiveTrue(id);
     }
 
+    public Budget deactivateCurrentBudgetAndCreateNewBudget(Long budgetId, BudgetSetupInput budgetSetUpInput) {
+        Optional<Budget> currentBudget = budgetRepository.findById(budgetId);
+        if (currentBudget.isPresent()) {
+            Budget budget = currentBudget.get();
+            budget.setIsActive(false);
+            budgetRepository.save(budget);
+        }
+
+        return budgetSetup(budgetSetUpInput);
+    }
+
 }

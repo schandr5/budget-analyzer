@@ -52,4 +52,19 @@ public class BudgetSetupResolver {
             throw new RuntimeException("Unable to fetch budget details for existing user");
         }
     }
+
+    @MutationMapping
+    public BudgetDetails updateIsActiveForCurrentBudgetCycle(@Argument("currentBudgetId") Long currentBudgetId, @Argument("budgetSetUpInput") BudgetSetupInput budgetSetUpInput) {
+        log.info("Set the isActive flag for the existing budget cycle to false");
+
+        Budget budgetInfo = budgetService.deactivateCurrentBudgetAndCreateNewBudget(currentBudgetId, budgetSetUpInput);
+
+        if (budgetInfo != null) {
+            return new BudgetDetails(budgetInfo.getBudgetId(), budgetInfo.getId(), budgetInfo.getStartDate(),
+                    budgetInfo.getEndDate(), budgetInfo.getBudgetAllocated(), budgetInfo.getBudgetRemaining(), budgetInfo.getIsActive());
+        }
+        else {
+            throw new RuntimeException("Unable to update isActive flag for the existing budget cycle");
+        }
+    }
 }
