@@ -23,14 +23,23 @@ public class BudgetSetupResolver {
     @MutationMapping
     public BudgetDetails setupBudgetForNewUser(@Argument("budgetSetupInput") BudgetSetupInput budgetSetupInput)
     {
-        log.info("Setting up budget for new user: {} ", budgetSetupInput.getId());
+        log.info("Setting up budget for new user: {} ", budgetSetupInput.getUser_id());
+    
+        Optional<Budget> budgetInfo = budgetService.fetchActiveBudgetDetailsForUser(budgetSetupInput.getUser_id());
 
-        Budget budgetInfo = budgetService.budgetSetup(budgetSetupInput);
-
-        if (budgetInfo != null)
+        // Check if the budget already exists for the user
+        if(budgetInfo.isPresent())
         {
-            return new BudgetDetails(budgetInfo.getBudgetId(), budgetInfo.getId(), budgetInfo.getStartDate(),
-                                budgetInfo.getEndDate(), budgetInfo.getBudgetAllocated(), budgetInfo.getBudgetRemaining(), budgetInfo.getIsActive());
+            throw new RuntimeException("Budget already exists for the user: " + budgetSetupInput.getUser_id());
+        }
+
+        Budget newBudgetInfo = budgetService.budgetSetup(budgetSetupInput);
+
+        // Check if the budget is saved successfully
+        if (newBudgetInfo != null)
+        {
+            return new BudgetDetails(newBudgetInfo.getBudgetId(), newBudgetInfo.getId(), newBudgetInfo.getStartDate(),
+                                newBudgetInfo.getEndDate(), newBudgetInfo.getBudgetAllocated(), newBudgetInfo.getBudgetRemaining(), newBudgetInfo.getIsActive());
         }
         else {
             throw new RuntimeException("Unable to save budget details for new user");
@@ -41,27 +50,34 @@ public class BudgetSetupResolver {
     public BudgetDetails fetchBudgetDetailsForExistingUser(@Argument("id") Long id) {
         log.info("Fetch budget details for the existing user: {}", id);
 
-        Optional<Budget> budgetInfo = budgetService.fetchBudgetDetails(id);
+        Optional<Budget> budgetInfo = budgetService.fetchActiveBudgetDetailsForUser(id);
+        
+        if (budgetInfo.isPresent()) {
+            return new BudgetDetails(budgetInfo.get().getBudgetId(), budgetInfo.get().getId(), budgetInfo.get().getStartDate(), budgetInfo.get().getEndDate(), budgetInfo.get().getBudgetAllocated(), budgetInfo.get().getBudgetRemaining(), budgetInfo.get().getIsActive());
+        }
 
-        if (budgetInfo.isPresent())
-        {
-            return new BudgetDetails(budgetInfo.get().getBudgetId(), budgetInfo.get().getId(), budgetInfo.get().getStartDate(),
-                    budgetInfo.get().getEndDate(), budgetInfo.get().getBudgetAllocated(), budgetInfo.get().getBudgetRemaining(), budgetInfo.get().getIsActive());
-        }
-        else {
-            throw new RuntimeException("Unable to fetch budget details for existing user");
-        }
+        return null;
     }
 
     @MutationMapping
     public BudgetDetails updateIsActiveForCurrentBudgetCycle(@Argument("currentBudgetId") Long currentBudgetId, @Argument("budgetSetUpInput") BudgetSetupInput budgetSetUpInput) {
         log.info("Set the isActive flag for the existing budget cycle to false");
 
-        Budget budgetInfo = budgetService.deactivateCurrentBudgetAndCreateNewBudget(currentBudgetId, budgetSetUpInput);
+        // Check if the current budget is an active budget for the user
+        Optional<Budget> budgetInfo = budgetService.fetchBudgetDetailsForUserUsingBudgetId(currentBudgetId);
+        if (!budgetInfo.isPresent()) {
+            throw new RuntimeException("Budget not found for the user" + budgetSetUpInput.getUser_id());
+        }
 
-        if (budgetInfo != null) {
-            return new BudgetDetails(budgetInfo.getBudgetId(), budgetInfo.getId(), budgetInfo.getStartDate(),
-                    budgetInfo.getEndDate(), budgetInfo.getBudgetAllocated(), budgetInfo.getBudgetRemaining(), budgetInfo.getIsActive());
+        if(budgetInfo.get().getId() != budgetSetUpInput.getUser_id()) {
+            throw new RuntimeException("Budget id mismatch for the user: " + budgetSetUpInput.getUser_id());
+        }
+        
+        // Deactivate the current budget and create a new budget
+        Budget updatedBudgetInfo = budgetService.deactivateCurrentBudgetAndCreateNewBudget(budgetInfo.get(), budgetSetUpInput);
+        if (updatedBudgetInfo != null) {
+                return new BudgetDetails(updatedBudgetInfo.getBudgetId(), updatedBudgetInfo.getId(), updatedBudgetInfo.getStartDate(),
+                        updatedBudgetInfo.getEndDate(), updatedBudgetInfo.getBudgetAllocated(), updatedBudgetInfo.getBudgetRemaining(), updatedBudgetInfo.getIsActive());
         }
         else {
             throw new RuntimeException("Unable to update isActive flag for the existing budget cycle");

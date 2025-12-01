@@ -16,25 +16,28 @@ public class BudgetService {
 
     public Budget budgetSetup(BudgetSetupInput budgetSetupInput)
     {
-       Budget newBudgetInfo = new Budget(null, budgetSetupInput.getId(),
+       Budget newBudgetInfo = new Budget(null, budgetSetupInput.getUser_id(),
                                     budgetSetupInput.getStartDate(), budgetSetupInput.getEndDate(),
                                     budgetSetupInput.getBudgetAllocated(), budgetSetupInput.getBudgetRemaining(), true);
        return budgetRepository.save(newBudgetInfo);
     }
 
-    public Optional<Budget> fetchBudgetDetails(Long id)
+    public Optional<Budget> fetchActiveBudgetDetailsForUser(Long id)
     {
         return budgetRepository.findByIdAndIsActiveTrue(id);
     }
 
-    public Budget deactivateCurrentBudgetAndCreateNewBudget(Long budgetId, BudgetSetupInput budgetSetUpInput) {
-        Optional<Budget> currentBudget = budgetRepository.findById(budgetId);
-        if (currentBudget.isPresent()) {
-            Budget budget = currentBudget.get();
-            budget.setIsActive(false);
-            budgetRepository.save(budget);
-        }
+    public Optional<Budget> fetchBudgetDetailsForUserUsingBudgetId(Long budgetId)
+    {
+        return budgetRepository.findByBudgetIdAndIsActiveTrue(budgetId);
+    }
 
+    public Budget deactivateCurrentBudgetAndCreateNewBudget(Budget currentBudget, BudgetSetupInput budgetSetUpInput) {
+        // Deactivate the current budget
+        currentBudget.setIsActive(false);
+        budgetRepository.save(currentBudget);
+
+        // Create a new budget
         return budgetSetup(budgetSetUpInput);
     }
 

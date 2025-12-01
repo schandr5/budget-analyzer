@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BudgetSetupInput {
-    private Long id;
+    private Long user_id;
 
     private LocalDate startDate;
 

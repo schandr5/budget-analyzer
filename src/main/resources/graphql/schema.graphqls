@@ -28,7 +28,7 @@ input Credentials {
 
 # Input type for initializing budget details
 input BudgetSetupInput {
-    id: ID!
+    user_id: ID!
     startDate: Date!
     endDate: Date!
     budgetAllocated: Long!
@@ -67,7 +67,7 @@ type Mutation {
     addUser(newUser: UserInput!): UserDetails
     setupBudgetForNewUser(budgetSetupInput: BudgetSetupInput!): BudgetDetails
     addTransaction(transactionInput: TransactionInput!) : TransactionOutput
-    updateIsActiveForCurrentBudgetCycle(currentBudgetId: ID!, budgetSetUpInput: BudgetSetupInput!) : BudgetDetails
+    updateIsActiveForCurrentBudgetCycle(currentBudgetId: BudgetId!, budgetSetUpInput: BudgetSetupInput!) : BudgetDetails
 }
 
 type Query {
@@ -75,4 +75,3 @@ type Query {
     fetchBudgetDetailsForExistingUser(id: ID!): BudgetDetails
     fetchTransactions(budgetId: ID!): [TransactionOutput]
 }
-

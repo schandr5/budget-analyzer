@@ -4,6 +4,7 @@ import com.example.demo.dto.UserDetails;
 import com.example.demo.dto.Credentials;
 import com.example.demo.model.User;
 import com.example.demo.dto.UserInput;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserAuthenticationService;
 import com.example.demo.service.UserRegistrationService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Optional;
 
-@Controller
-@Slf4j
+ @Slf4j
 public class UserResolver {
 
     @Autowired
@@ -25,11 +25,22 @@ public class UserResolver {
     @Autowired
     private UserAuthenticationService userAuthenticationService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     // User registration mutation
     @MutationMapping
     public UserDetails addUser(@Argument("newUser") UserInput newUser) {
+        log.info("Received user data: {}", newUser.getUserName());
+        
+        // Check if user already exists
+        Optional<User> existingUser = userRepository.findByUserName(newUser.getUserName());
+        if (existingUser.isPresent()) {
+            log.warn("Attempt to register duplicate username: {}", newUser.getUserName());
+            throw new RuntimeException("Username already exists");
+        }
+        
         User user = new User(null, newUser.getName(), newUser.getUserName(), newUser.getPassword());
-        log.info("Received user data: {}", user.getUserName());
         User savedUser = userRegistrationService.addUser(user);
         return new UserDetails(savedUser.getId(), savedUser.getUserName());
     }
