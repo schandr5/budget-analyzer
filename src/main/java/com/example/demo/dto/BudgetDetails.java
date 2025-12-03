@@ -14,7 +14,7 @@ import java.util.Date;
 public class BudgetDetails {
     private Long budgetId;
 
-    private Long id;
+    private Long userId;
 
     private LocalDate startDate;
 

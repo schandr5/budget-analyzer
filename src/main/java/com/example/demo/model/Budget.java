@@ -17,8 +17,8 @@ public class Budget {
     @Column(name = "budget_id")
     private Long budgetId;
 
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "start_date")
     private LocalDate startDate;

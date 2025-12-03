@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
 
-    Optional<Budget> findByIdAndIsActiveTrue(Long id);
+    Optional<Budget> findByUserIdAndIsActiveTrue(Long userId);
+
+    Optional<Budget> findByBudgetIdAndIsActiveTrue(Long budgetId);
 }

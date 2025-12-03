@@ -26,7 +26,9 @@ public class TransactionResolver {
         Transaction transaction = transactionService.saveTransaction(transactionInput);
 
         if (transaction != null) {
-            return new TransactionOutput(transaction.getTransactionId(), transaction.getBudgetId(), transaction.getTransactionAmount(), transaction.getTransactionDate(), transaction.getTransactionCategory(), transaction.getTransactionPriority());
+            return new TransactionOutput(transaction.getTransactionId(), transaction.getBudgetId(),
+            transaction.getTransactionAmount(), transaction.getTransactionDate(), transaction.getTransactionCategory(),
+            transaction.getTransactionPriority());
         }
         else {
             throw new RuntimeException("Unable to add transaction");

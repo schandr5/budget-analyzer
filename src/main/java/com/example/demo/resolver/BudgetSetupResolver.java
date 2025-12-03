@@ -38,7 +38,7 @@ public class BudgetSetupResolver {
         // Check if the budget is saved successfully
         if (newBudgetInfo != null)
         {
-            return new BudgetDetails(newBudgetInfo.getBudgetId(), newBudgetInfo.getId(), newBudgetInfo.getStartDate(),
+            return new BudgetDetails(newBudgetInfo.getBudgetId(), newBudgetInfo.getUserId(), newBudgetInfo.getStartDate(),
                                 newBudgetInfo.getEndDate(), newBudgetInfo.getBudgetAllocated(), newBudgetInfo.getBudgetRemaining(), newBudgetInfo.getIsActive());
         }
         else {
@@ -53,7 +53,7 @@ public class BudgetSetupResolver {
         Optional<Budget> budgetInfo = budgetService.fetchActiveBudgetDetailsForUser(id);
         
         if (budgetInfo.isPresent()) {
-            return new BudgetDetails(budgetInfo.get().getBudgetId(), budgetInfo.get().getId(), budgetInfo.get().getStartDate(), budgetInfo.get().getEndDate(), budgetInfo.get().getBudgetAllocated(), budgetInfo.get().getBudgetRemaining(), budgetInfo.get().getIsActive());
+            return new BudgetDetails(budgetInfo.get().getBudgetId(), budgetInfo.get().getUserId(), budgetInfo.get().getStartDate(), budgetInfo.get().getEndDate(), budgetInfo.get().getBudgetAllocated(), budgetInfo.get().getBudgetRemaining(), budgetInfo.get().getIsActive());
         }
 
         return null;
@@ -69,14 +69,14 @@ public class BudgetSetupResolver {
             throw new RuntimeException("Budget not found for the user" + budgetSetUpInput.getUser_id());
         }
 
-        if(budgetInfo.get().getId() != budgetSetUpInput.getUser_id()) {
+        if(!budgetInfo.get().getUserId().equals(budgetSetUpInput.getUser_id())) {
             throw new RuntimeException("Budget id mismatch for the user: " + budgetSetUpInput.getUser_id());
         }
         
         // Deactivate the current budget and create a new budget
         Budget updatedBudgetInfo = budgetService.deactivateCurrentBudgetAndCreateNewBudget(budgetInfo.get(), budgetSetUpInput);
         if (updatedBudgetInfo != null) {
-                return new BudgetDetails(updatedBudgetInfo.getBudgetId(), updatedBudgetInfo.getId(), updatedBudgetInfo.getStartDate(),
+                return new BudgetDetails(updatedBudgetInfo.getBudgetId(), updatedBudgetInfo.getUserId(), updatedBudgetInfo.getStartDate(),
                         updatedBudgetInfo.getEndDate(), updatedBudgetInfo.getBudgetAllocated(), updatedBudgetInfo.getBudgetRemaining(), updatedBudgetInfo.getIsActive());
         }
         else {

@@ -22,9 +22,9 @@ public class BudgetService {
        return budgetRepository.save(newBudgetInfo);
     }
 
-    public Optional<Budget> fetchActiveBudgetDetailsForUser(Long id)
+    public Optional<Budget> fetchActiveBudgetDetailsForUser(Long userId)
     {
-        return budgetRepository.findByIdAndIsActiveTrue(id);
+        return budgetRepository.findByUserIdAndIsActiveTrue(userId);
     }
 
     public Optional<Budget> fetchBudgetDetailsForUserUsingBudgetId(Long budgetId)
