@@ -8,7 +8,11 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import com.example.demo.dto.TransactionInput;
 import com.example.demo.dto.TransactionOutput;
 import com.example.demo.model.Transaction;
+import com.example.demo.model.Budget;
 import com.example.demo.service.TransactionService;
+import com.example.demo.service.BudgetService;
+import com.example.demo.service.TransactionService.TransactionResult;
+import com.example.demo.service.TransactionService.TransactionResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,15 +24,19 @@ public class TransactionResolver {
     @Autowired
     TransactionService transactionService;
 
+    @Autowired
+    BudgetService budgetService;
+
     @MutationMapping
     public TransactionOutput addTransaction(@Argument("transactionInput") TransactionInput transactionInput) {
         log.info("Adding transaction for budget: {}", transactionInput.getBudgetId());
-        Transaction transaction = transactionService.saveTransaction(transactionInput);
+        TransactionResult transactionResult = transactionService.saveTransaction(transactionInput);
 
+        Transaction transaction = transactionResult.getTransaction();
         if (transaction != null) {
             return new TransactionOutput(transaction.getTransactionId(), transaction.getBudgetId(),
             transaction.getTransactionAmount(), transaction.getTransactionDate(), transaction.getTransactionCategory(),
-            transaction.getTransactionPriority());
+            transaction.getTransactionPriority(), transactionResult.getBudgetRemaining());
         }
         else {
             throw new RuntimeException("Unable to add transaction");
@@ -38,11 +46,12 @@ public class TransactionResolver {
     @QueryMapping
     public List<TransactionOutput> fetchTransactions(@Argument("budgetId") Long budgetId) {
         log.info("Fetching transactions for budget: {}", budgetId);
+
         List<Transaction> transactions = transactionService.retrieveTransaction(budgetId);
 
         return transactions.stream()
-                .map(t -> new TransactionOutput(t.getTransactionId(), t.getBudgetId(), t.getTransactionAmount(), 
-                        t.getTransactionDate(), t.getTransactionCategory(), t.getTransactionPriority()))
+                .map(t -> new TransactionOutput(t.getTransactionId(), t.getBudgetId(), t.getTransactionAmount(),
+                        t.getTransactionDate(), t.getTransactionCategory(), t.getTransactionPriority(), null))
                 .collect(Collectors.toList());
     }
 

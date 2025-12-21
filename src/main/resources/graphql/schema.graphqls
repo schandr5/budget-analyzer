@@ -61,6 +61,7 @@ type TransactionOutput {
     transactionDate: Date!
     transactionCategory: String!
     transactionPriority: TransactionPriority!
+    budgetRemaining: Long
 }
 
 type Mutation {

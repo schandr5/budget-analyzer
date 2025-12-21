@@ -6,8 +6,10 @@ import com.example.demo.enums.TransactionPriority;
 import com.example.demo.model.Budget;
 import com.example.demo.model.Transaction;
 import com.example.demo.repository.TransactionRepository;
+import com.example.demo.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +22,13 @@ public class TransactionService {
     @Autowired
     BudgetService budgetService;
 
-    public Transaction saveTransaction(TransactionInput transactionInput) {
+    @Autowired
+    BudgetRepository budgetRepository;
+
+    public record TransactionResult(Transaction transaction, Long budgetRemaining) {}
+
+    @Transactional
+    public TransactionResult saveTransaction(TransactionInput transactionInput) {
 
         Budget budget = budgetService.fetchBudgetDetailsForUserUsingBudgetId(transactionInput.getBudgetId())
                 .orElseThrow(() -> new RuntimeException("Budget not found for the user"));
@@ -29,15 +37,22 @@ public class TransactionService {
             throw new RuntimeException("Transaction amount is not valid for the budget");
         }
 
-        TransactionPriority priority = TransactionPriority.LOW;
         double transactionPercentage = (double) transactionInput.getTransactionAmount() / transactionInput.getBudgetAllocated();
+        TransactionPriority priority = determinePriority(transactionPercentage);
 
-        priority = determinePriority(transactionPercentage);
+        Transaction transaction = new Transaction(
+                null,
+                transactionInput.getBudgetId(),
+                transactionInput.getTransactionAmount(),
+                transactionInput.getTransactionDate(),
+                transactionInput.getTransactionCategory(),
+                priority);
 
-        Transaction transaction = new Transaction(null, transactionInput.getBudgetId(),transactionInput.getTransactionAmount(), transactionInput.getTransactionDate(),
-                                                                    transactionInput.getTransactionCategory(), priority);
+        Transaction savedTransaction = transactionRepository.save(transaction);
 
-        return transactionRepository.save(transaction);
+        updateBudgetRemaining(budget, transaction.getTransactionAmount());
+
+        return new TransactionResult(savedTransaction, budget.getBudgetRemaining());
     }
 
     public List<Transaction> retrieveTransaction(Long budgetId) {
@@ -60,13 +75,14 @@ public class TransactionService {
         return TransactionPriority.LOW;
     }
 
-
     private boolean isTransactionValid(Budget budget, Long transactionAmount) { 
-        Long budgetRemaining = budget.getBudgetRemaining();
-        Long budgetAllocated = budget.getBudgetAllocated();
-
         return (transactionAmount > 0) &&
-                (transactionAmount <= budgetRemaining);
+                (transactionAmount <= budget.getBudgetRemaining());
+    }
+
+    private void updateBudgetRemaining(Budget budget, Long transactionAmount) {
+        budget.setBudgetRemaining(budget.getBudgetRemaining() - transactionAmount);
+        budgetRepository.save(budget);
     }
 
 }

@@ -25,4 +25,7 @@ public class TransactionOutput {
     private String transactionCategory;
 
     private TransactionPriority transactionPriority;
+
+    private Long budgetRemaining;
+
 }
