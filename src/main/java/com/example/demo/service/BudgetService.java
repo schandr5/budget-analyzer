@@ -41,4 +41,23 @@ public class BudgetService {
         return budgetSetup(budgetSetUpInput);
     }
 
+    public Budget modifyBudgetForExistingCycle(Long budgetId, Long additionalBudgetAllocated) {
+
+        if(additionalBudgetAllocated <= 0) {
+            throw new RuntimeException("Additional budget allocated must be positive");
+        }
+
+        Budget budget = fetchBudgetDetailsForUserUsingBudgetId(budgetId).orElseThrow(() -> new RuntimeException("Budget not found for the user"));
+        
+        Long newBudgetAllocated = budget.getBudgetAllocated() + additionalBudgetAllocated;
+        budget.setBudgetAllocated(newBudgetAllocated);
+
+        Long newBudgetRemaining = additionalBudgetAllocated + budget.getBudgetRemaining();
+        budget.setBudgetRemaining(newBudgetRemaining);
+
+        return budgetRepository.save(budget);
+    }
+
+
+
 }

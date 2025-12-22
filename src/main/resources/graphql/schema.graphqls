@@ -69,6 +69,7 @@ type Mutation {
     setupBudgetForNewUser(budgetSetupInput: BudgetSetupInput!): BudgetDetails
     addTransaction(transactionInput: TransactionInput!) : TransactionOutput
     updateIsActiveForCurrentBudgetCycle(currentBudgetId: ID!, budgetSetUpInput: BudgetSetupInput!) : BudgetDetails
+    modifyBudgetForExistingCycle(budgetId: ID!, additionalBudgetAllocated: Long!): BudgetDetails
 }
 
 type Query {

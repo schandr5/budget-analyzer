@@ -60,6 +60,26 @@ public class BudgetSetupResolver {
     }
 
     @MutationMapping
+    public BudgetDetails modifyBudgetForExistingCycle(@Argument("budgetId") Long budgetId, @Argument("additionalBudgetAllocated") Long additionalBudgetAllocated) {
+        log.info("Modify budget for the existing cycle: {}", budgetId);
+
+        Optional<Budget> budgetInfo = budgetService.fetchBudgetDetailsForUserUsingBudgetId(budgetId);
+        if (!budgetInfo.isPresent()) {
+            throw new RuntimeException("Budget not found for the user" + budgetId);
+        }
+
+        Budget updatedBudgetInfo = budgetService.modifyBudgetForExistingCycle(budgetId, additionalBudgetAllocated);
+
+        if (updatedBudgetInfo != null) {
+            return new BudgetDetails(updatedBudgetInfo.getBudgetId(), updatedBudgetInfo.getUserId(), updatedBudgetInfo.getStartDate(), updatedBudgetInfo.getEndDate(), updatedBudgetInfo.getBudgetAllocated(), updatedBudgetInfo.getBudgetRemaining(), updatedBudgetInfo.getIsActive());
+        }
+        else {
+            throw new RuntimeException("Unable to modify budget for the existing cycle");
+        }
+        
+    }
+
+    @MutationMapping
     public BudgetDetails updateIsActiveForCurrentBudgetCycle(@Argument("currentBudgetId") Long currentBudgetId, @Argument("budgetSetUpInput") BudgetSetupInput budgetSetUpInput) {
         log.info("Set the isActive flag for the existing budget cycle to false");
 

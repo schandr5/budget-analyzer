@@ -12,7 +12,6 @@ import com.example.demo.model.Budget;
 import com.example.demo.service.TransactionService;
 import com.example.demo.service.BudgetService;
 import com.example.demo.service.TransactionService.TransactionResult;
-import com.example.demo.service.TransactionService.TransactionResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,11 +31,11 @@ public class TransactionResolver {
         log.info("Adding transaction for budget: {}", transactionInput.getBudgetId());
         TransactionResult transactionResult = transactionService.saveTransaction(transactionInput);
 
-        Transaction transaction = transactionResult.getTransaction();
+        Transaction transaction = transactionResult.transaction();
         if (transaction != null) {
             return new TransactionOutput(transaction.getTransactionId(), transaction.getBudgetId(),
             transaction.getTransactionAmount(), transaction.getTransactionDate(), transaction.getTransactionCategory(),
-            transaction.getTransactionPriority(), transactionResult.getBudgetRemaining());
+            transaction.getTransactionPriority(), transactionResult.budgetRemaining());
         }
         else {
             throw new RuntimeException("Unable to add transaction");
