@@ -76,4 +76,5 @@ type Query {
     authenticateUser(credentials: Credentials!): UserDetails
     fetchBudgetDetailsForExistingUser(id: ID!): BudgetDetails
     fetchTransactions(budgetId: ID!): [TransactionOutput]
+    fetchInsights(budgetId: ID!, prompt: String!): String
 }

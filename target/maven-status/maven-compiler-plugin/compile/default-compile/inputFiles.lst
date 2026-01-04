@@ -1,0 +1,17 @@
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/BudgetAnalyzerApplication.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/config/GQLConfig.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/config/WebConfig.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/dto/BudgetDetails.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/dto/BudgetSetupInput.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/dto/Credentials.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/dto/UserDetails.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/dto/UserInput.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/model/Budget.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/model/User.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/repository/BudgetRepository.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/repository/UserRepository.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/resolver/BudgetSetupResolver.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/resolver/UserResolver.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/service/BudgetSetupService.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/service/UserAuthenticationService.java
+/Users/sahiti/Desktop/budget analyzer/budget-analyzer/src/main/java/com/example/demo/service/UserRegistrationService.java

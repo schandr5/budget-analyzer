@@ -1,0 +1,80 @@
+scalar Date
+scalar Long
+
+enum TransactionPriority {
+    HIGH
+    MEDIUM
+    LOW
+}
+
+# Input type for addUser mutation
+input UserInput {
+    name: String!
+    userName: String!
+    password: String!
+}
+
+# Return type of addUser mutation
+type UserDetails {
+    userId : ID!
+    userName: String!
+}
+
+#Input type for userLogin query
+input Credentials {
+    userName: String!
+    password: String!
+}
+
+# Input type for initializing budget details
+input BudgetSetupInput {
+    user_id: ID!
+    startDate: Date!
+    endDate: Date!
+    budgetAllocated: Long!
+    budgetRemaining: Long!
+}
+
+# Return type for budget details after initializing it.
+type BudgetDetails {
+    budgetId: ID!
+    userId: ID!
+    startDate: Date!
+    endDate: Date!
+    budgetAllocated: Long!
+    budgetRemaining: Long!
+    isActive: Boolean!
+}
+
+input TransactionInput {
+      budgetId: ID!
+      transactionAmount: Long!
+      transactionDate: Date!
+      transactionCategory: String!
+      budgetAllocated: Long!
+}
+
+type TransactionOutput {
+    transactionId: ID!
+    budgetId: ID!
+    transactionAmount: Long!
+    transactionDate: Date!
+    transactionCategory: String!
+    transactionPriority: TransactionPriority!
+    budgetRemaining: Long
+}
+
+type Mutation {
+    addUser(newUser: UserInput!): UserDetails
+    setupBudgetForNewUser(budgetSetupInput: BudgetSetupInput!): BudgetDetails
+    addTransaction(transactionInput: TransactionInput!) : TransactionOutput
+    updateIsActiveForCurrentBudgetCycle(currentBudgetId: ID!, budgetSetUpInput: BudgetSetupInput!) : BudgetDetails
+    modifyBudgetForExistingCycle(currentBudgetId: ID!, additionalBudgetAllocated: Long!): BudgetDetails
+}
+
+type Query {
+    authenticateUser(credentials: Credentials!): UserDetails
+    fetchBudgetDetailsForExistingUser(id: ID!): BudgetDetails
+    fetchTransactions(budgetId: ID!): [TransactionOutput]
+    fetchInsights(budgetId: ID!, prompt: String!): String
+}

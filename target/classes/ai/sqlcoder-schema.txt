@@ -1,0 +1,24 @@
+-- MySQL schema (DDL-style)
+-- NOTE: These table names match the current JPA defaults in this app (singular).
+
+CREATE TABLE budget (
+  budget_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  start_date DATE NULL,
+  end_date DATE NULL,
+  budget_allocated BIGINT NULL,
+  budget_remaining BIGINT NULL,
+  is_active BIT(1) NULL
+);
+
+-- "transaction" can be a reserved keyword in MySQL; quote it as `transaction`.
+CREATE TABLE transaction (
+  transaction_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  budget_id BIGINT NULL,
+  amount_spend BIGINT NULL,
+  time_stamp DATE NULL,
+  category VARCHAR(255) NULL,
+  priority ENUM('HIGH','LOW','MEDIUM') NULL,
+  FOREIGN KEY (budget_id) REFERENCES budget(budget_id)
+);
+
