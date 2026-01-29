@@ -10,6 +10,11 @@ AI is powered by **Ollama**:
 
 Repo: `https://github.com/schandr5/budget-analyzer`
 
+### UI project (Angular)
+The UI for this app lives in a separate repository (registration, login, salary setup, and expense tracking UI).
+
+UI repo: `https://github.com/schandr5/budget_analyzer_ui`
+
 ### What this backend provides
 - **User + budget setup** (create account, start/end budget cycles)
 - **Budget cycle management** (modify existing budget allocation, start a new cycle)
