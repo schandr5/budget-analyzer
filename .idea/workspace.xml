@@ -5,9 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d265866-119d-4ce7-8f3d-a06bf6bc7f4c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/constants/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/resolver/InsightsResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/resolver/InsightsResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/InsightsGenerationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/InsightsGenerationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/TextToSqlGenerationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/TextToSqlGenerationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ai/sqlcoder-rules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ai/sqlcoder-rules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphql/schema.graphqls" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphql/schema.graphqls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/budget-analyzer-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/budget-analyzer-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/budget-analyzer-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/budget-analyzer-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ai/sqlcoder-rules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ai/sqlcoder-rules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/constants/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/constants/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/resolver/InsightsResolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/resolver/InsightsResolver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/InsightsGenerationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/InsightsGenerationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/TextToSqlGenerationService$OllamaGenerateRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/TextToSqlGenerationService$OllamaGenerateRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/TextToSqlGenerationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/TextToSqlGenerationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

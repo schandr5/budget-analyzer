@@ -19,9 +19,23 @@ Rules:
 - Use the exact table names from the schema (in this app they are singular: budget, transaction).
 - Do NOT use plural table names like budgets or transactions.
 - Because "transaction" can be reserved in MySQL, always reference it as `transaction` (with backticks) in SQL.
-- Always filter by the provided budget_id (and user_id if provided).
-- Every query MUST include an exact equality filter: `transaction`.budget_id = <budget_id>.
-- Do NOT omit the budget_id filter. Do NOT use LIKE for budget_id. Do NOT use a range for budget_id.
+- Always scope the query to the provided context:
+  - You MUST join budget and filter budget.user_id = <user_id> (never `transaction`.user_id).
+  - Include an exact equality filter `transaction`.budget_id = <budget_id> when the budget_id is provided AND the prompt is single-month and within that budget’s window.
+  - For multi-month prompts, omit budget_id but still JOIN budget and filter budget.user_id.
+- If both budget_id and user_id are provided, you may include both filters when applicable.
+- Do NOT use LIKE for ids. Do NOT use a range for ids.
+- IMPORTANT (user_id scoping):
+  - Never filter `transaction`.user_id (that column does NOT exist).
+  - When user_id is provided, you MUST: JOIN budget b ON b.budget_id = `transaction`.budget_id AND filter b.user_id = <user_id>.
+  - Do NOT write bare user_id = <user_id>. Always prefix it as b.user_id (or budget.user_id).
+  - Prefer aliases for clarity: `transaction` t and budget b, then reference columns as t.time_stamp, t.category, t.amount_spend.
+- Multi-month prompts:
+  - You MUST join budget and filter by b.user_id (never `transaction`.user_id).
+  - Do NOT add a budget_id filter for multi-month (cross-budget) prompts.
+  - Apply month filters as MONTH(t.time_stamp) IN (<month_numbers>) and year filters as YEAR(t.time_stamp) = <year> when provided.
+  - If aggregating by month, return one row per month (GROUP BY MONTH(t.time_stamp)) and include an ORDER BY month.
+  - Preferred template: FROM `transaction` t JOIN budget b ON b.budget_id = t.budget_id WHERE b.user_id = <user_id> AND YEAR(t.time_stamp) = <year> AND MONTH(t.time_stamp) IN (<months_csv>)
 - If a time window is provided, always apply it using `transaction`.time_stamp.
 - Prefer simple queries; avoid unnecessary JOINs.
 - Always include LIMIT 200 unless the question requires a smaller limit.

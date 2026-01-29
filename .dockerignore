@@ -1,0 +1,14 @@
+.git
+.idea
+.vscode
+target
+**/target
+**/build
+**/.classpath
+**/.project
+**/.settings
+**/.DS_Store
+.DS_Store
+.env
+HELP.md
+

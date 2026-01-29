@@ -1,5 +1,7 @@
 package com.example.demo.resolver;
 
+import com.example.demo.dto.GeneratedSqlContext;
+import com.example.demo.service.InsightsGenerationService;
 import com.example.demo.service.SqlQueryExecutionService;
 import com.example.demo.service.TextToSqlGenerationService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +23,24 @@ public class InsightsResolver {
     @Autowired
     SqlQueryExecutionService sqlQueryExecutionService;
 
+    @Autowired
+    InsightsGenerationService insightsGenerationService;
+
     @QueryMapping
     public String fetchInsights(@Argument("budgetId") Long budgetId, @Argument("prompt") String prompt) {
         log.info("Fetching insights for the budget: {}", budgetId);
-        String sqlQuery = textToSqlGenerationService.generateSql(budgetId, prompt);
-        List<Map<String, Object>> results = sqlQueryExecutionService.executeQuery(sqlQuery);
+
+        // Generate SQL query with the help of SqlCoder gen ai model.
+        GeneratedSqlContext generatedSqlContext = textToSqlGenerationService.generateSql(budgetId, prompt);
+
+        // Execute the query and fetch the ResultSet.
+        List<Map<String, Object>> results = sqlQueryExecutionService.executeQuery(generatedSqlContext.getSqlQuery());
         log.info("SQL query results: {}", results);
-        return sqlQuery;
+        generatedSqlContext.setResultSet(results);
+        
+        // Generate insights with the help of DeepSeek gen ai model and return the insights to the user.
+        String insights = insightsGenerationService.generateInsights(generatedSqlContext);
+        log.info("Insights: {}", insights);
+        return insights;
     }
 }
